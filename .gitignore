@@ -26,3 +26,4 @@ assets
 out
 dist
 *.jpg
+.DS_Store
