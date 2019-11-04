@@ -97,8 +97,8 @@ public class Filter {
         }
         // Right
         border = image.getRGB( width - 1, 0, 1, height, null, 0, 1 );
-        for( int i = 0; i < auxSize; i++ ) {
-            tmpImg.setRGB( width + 1 + i, auxSize, 1, height, border, 0, 1 );
+        for( int i = 1; i <= auxSize; i++ ) {
+            tmpImg.setRGB( width + i, auxSize, 1, height, border, 0, 1 );
         }
         // Top
         int tmpWidth = tmpImg.getWidth();

@@ -14,6 +14,9 @@ public class Sepia extends Filter implements Runnable {
     public void run() {
         filterName = "Sepia";
         original.setFilterName( filterName );
+        if ( sectionId != -1 ) {
+            filterName += "_" + sectionId;
+        }
         long startTime = System.currentTimeMillis();
         for( int i = 0; i < width; i++ ) {
             for( int j = 0; j < height; j++ ) {

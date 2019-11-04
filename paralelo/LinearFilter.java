@@ -22,20 +22,23 @@ public class LinearFilter extends Filter implements Runnable {
         long startTime = System.currentTimeMillis();
         switch ( filter ) {
             case 0:
-                gauss();
+                box( 3 );
                 break;
             case 1:
-                diff();
+                gauss();
                 break;
             case 2:
-                box( 3 );
+                diff();
                 break;
         }
         original.setFilterName( filterName );
+        if ( sectionId != -1 ) {
+            filterName += "_" + sectionId;
+        }
         applyMask();
         long endTime = System.currentTimeMillis();
         time = ( endTime - startTime );
-        // write( duration );
+        // write( time );
         original.mergeImages( original, image, sectionId, time );
     }
 
@@ -45,13 +48,13 @@ public class LinearFilter extends Filter implements Runnable {
             0, 0, 0, 0, 0, 0, 0,
             0, 0, 1, 1, 1, 0, 0,
             0, 1, 3, 4, 3, 1, 0,
-            0, 1, 4, 8, 4, 1, 0,
+            0, 1, 4, 9, 4, 1, 0,
             0, 1, 3, 4, 3, 1, 0,
             0, 0, 1, 1, 1, 0, 0,
             0, 0, 0, 0, 0, 0, 0
         };
-        maskSize = 5;
-        int size = maskSize * maskSize;
+        maskSize = 7;
+        int size = mask.length;
         for( int i = 0; i < size; i++ ) {
             mask[ i ] /= size;
         }
