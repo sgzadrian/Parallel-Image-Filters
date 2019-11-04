@@ -20,6 +20,7 @@ public class Filter {
     int[][] sections;
     int sectionId = -1;
     long time = 0;
+    int finishedThreads = 0;
 
     Filter( String filename ) {
         read( filename );
@@ -177,7 +178,8 @@ public class Filter {
         int w = tmpImg.getWidth();
         int h = tmpImg.getHeight();
         image.setRGB( sections[ section ][0], sections[ section ][1], w, h, tmpImg.getRGB( 0, 0, w, h, null, 0, w ), 0, w );
-        if ( section == sections.length - 1 ) {
+        finishedThreads++;
+        if ( finishedThreads == sections.length ) {
             baseImage.write( time );
         }
     }
