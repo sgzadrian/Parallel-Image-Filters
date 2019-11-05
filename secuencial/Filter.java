@@ -13,10 +13,8 @@ public class Filter {
 
     String filterName = "test";
 
-    //final String IN_DIR = "../../assets/";
-    final String IN_DIR = "../assets/";
-    //final String OUT_DIR = "../output/";
-    final String OUT_DIR = "output/";
+    final String IN_DIR = "../../assets/";
+    final String OUT_DIR = "../output/";
 
     Filter( String filename ) {
         read( filename );
@@ -25,11 +23,9 @@ public class Filter {
     public void read( String filename ) {
         try {
             File tmpFile = new File( IN_DIR + filename );
-            // image = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
             image = ImageIO.read( tmpFile );
             width = image.getWidth();
             height = image.getHeight();
-            // System.out.println( "Size :" + width + "x" + height );
         } catch( IOException e ) {
             System.out.println( "Error: "+e );
         }

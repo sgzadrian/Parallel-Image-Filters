@@ -17,13 +17,15 @@ public class LinearFilter extends Filter {
     public void gauss() {
         filterName = "GaussBlur";
         double[] mask = {
-            0.0, 1.0, 2.0, 1.0, 0.0,
-            1.0, 3.0, 5.0, 3.0, 1.0,
-            2.0, 5.0, 9.0, 5.0, 2.0,
-            1.0, 3.0, 5.0, 3.0, 1.0,
-            0.0, 1.0, 2.0, 1.0, 0.0
+            0, 0, 0, 0, 0, 0, 0,
+            0, 0, 1, 1, 1, 0, 0,
+            0, 1, 3, 4, 3, 1, 0,
+            0, 1, 4, 9, 4, 1, 0,
+            0, 1, 3, 4, 3, 1, 0,
+            0, 0, 1, 1, 1, 0, 0,
+            0, 0, 0, 0, 0, 0, 0
         };
-        maskSize = 5;
+        maskSize = 7;
         int size = maskSize * maskSize;
         for( int i = 0; i < size; i++ ) {
             mask[ i ] /= size;
@@ -38,11 +40,9 @@ public class LinearFilter extends Filter {
         int size = maskSize * maskSize;
         double[] mask = new double[ size ];
         double maskValue = 1.0 / size;
-        System.out.println( maskValue );
         for( int i = 0; i < size; i++ ) {
             mask[ i ] = maskValue;
         }
-        System.out.println( Arrays.toString( mask ) );
         this.mask = mask;
         run();
     }
