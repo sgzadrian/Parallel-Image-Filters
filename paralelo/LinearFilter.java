@@ -96,11 +96,15 @@ public class LinearFilter extends Filter implements Runnable {
         }
     }
 
-    public static void splitAndRun( String image, int filter ) {
+    public static void splitAndRun( BufferedImage baseImage, int filter, ImagePane panel ) {
         Thread base = new Thread(new Runnable(){
             @Override
             public void run() {
-                Filter f = new Filter( image );
+                int w = baseImage.getWidth();
+                int h = baseImage.getHeight();
+                BufferedImage image = new BufferedImage( w, h, 1 );
+                image.setRGB( 0, 0, w, h, baseImage.getRGB( 0, 0, w, h, null, 0, w ), 0, w );
+                Filter f = new Filter( image, panel );
                 BufferedImage[] res = f.splitImage( f.getImage() );
                 for( int i = 0; i < res.length; i++ ) {
                     Thread th = new Thread( new LinearFilter( res[ i ], i, f, filter ) );

@@ -22,14 +22,27 @@ public class Filter {
     long time = 0;
     int finishedThreads = 0;
 
+    ImagePane pane = null;
+
     Filter( String filename ) {
         read( filename );
     }
 
-    Filter( BufferedImage image, int section, Filter original ) {
+    Filter( BufferedImage image ) {
         this.image = image;
         width = image.getWidth();
         height = image.getHeight();
+    }
+
+    Filter( BufferedImage image, ImagePane pane ) {
+        this.image = image;
+        width = image.getWidth();
+        height = image.getHeight();
+        this.pane = pane;
+    }
+
+    Filter( BufferedImage image, int section, Filter original ) {
+        this( image );
         sectionId = section;
         this.original = original;
     }
@@ -181,6 +194,9 @@ public class Filter {
         finishedThreads++;
         if ( finishedThreads == sections.length ) {
             baseImage.write( time );
+            if ( pane != null ) {
+                pane.setBack( baseImage.getImage() );
+            }
         }
     }
 }
