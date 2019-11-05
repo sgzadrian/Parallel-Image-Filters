@@ -1,9 +1,13 @@
-import java.util.Arrays;
+import java.awt.image.BufferedImage;
 
 public class LinearFilter extends Filter {
 
     LinearFilter( String filename ) {
         super( filename );
+    }
+
+    LinearFilter( BufferedImage base, ImagePane panel ) {
+        super( base, panel );
     }
 
     public void run() {

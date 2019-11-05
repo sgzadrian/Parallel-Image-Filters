@@ -1,8 +1,16 @@
+import java.awt.image.BufferedImage;
+
 public class Negative extends Filter {
 
     Negative( String filename ) {
         super( filename );
     }
+
+    Negative( BufferedImage base, ImagePane panel ) {
+        super( base, panel );
+        run();
+    }
+
 
     public void run() {
         filterName = "Negative";

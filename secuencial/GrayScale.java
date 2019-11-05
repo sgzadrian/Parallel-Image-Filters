@@ -1,7 +1,14 @@
+import java.awt.image.BufferedImage;
+
 public class GrayScale extends Filter {
 
     GrayScale( String filename ) {
         super( filename );
+    }
+
+    GrayScale( BufferedImage base, ImagePane panel ) {
+        super( base, panel );
+        run();
     }
 
     public void run() {

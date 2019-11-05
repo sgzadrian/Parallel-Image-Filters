@@ -1,7 +1,14 @@
+import java.awt.image.BufferedImage;
+
 public class Sepia extends Filter {
 
     Sepia( String filename ) {
         super( filename );
+    }
+
+    Sepia( BufferedImage base, ImagePane panel ) {
+        super( base, panel );
+        run();
     }
 
     public void run() {

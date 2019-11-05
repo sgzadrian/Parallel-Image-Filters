@@ -88,18 +88,15 @@ public class Window extends JFrame {
     }
 
     public void applyFilters() {
-        Thread th = new Thread( new Runnable() {
-            @Override
-            public void run() {
-                // GrayScale.splitAndRun( file, grayImg );
-                // Sepia.splitAndRun( file, sepiaImg );
-                // Negative.splitAndRun( file, negativeImg );
-                // LinearFilter.splitAndRun( file, LinearFilter.BOX, boxImg );
-                // LinearFilter.splitAndRun( file, LinearFilter.GAUSS, gaussImg );
-                // LinearFilter.splitAndRun( file, LinearFilter.DIFF, diffImg );
-            }
-        });
-        th.start();
+        new GrayScale( file, grayImg );
+        new Sepia( file, sepiaImg );
+        new Negative( file, negativeImg );
+        LinearFilter box = new LinearFilter( file, boxImg );
+        box.box( 5 );
+        LinearFilter gauss = new LinearFilter( file, gaussImg );
+        gauss.gauss();
+        LinearFilter diff = new LinearFilter( file, diffImg );
+        diff.diff();
     }
 
 }

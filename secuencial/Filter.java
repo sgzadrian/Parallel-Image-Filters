@@ -16,8 +16,19 @@ public class Filter {
     final String IN_DIR = "../../assets/";
     final String OUT_DIR = "../output/";
 
+    ImagePane panel = null;
+
     Filter( String filename ) {
         read( filename );
+    }
+
+    Filter( BufferedImage base, ImagePane panel ) {
+        width = base.getWidth();
+        height = base.getHeight();
+        BufferedImage image = new BufferedImage( width, height, 1 );
+        image.setRGB( 0, 0, width, height, base.getRGB( 0, 0, width, height, null, 0, width ), 0, width );
+        this.image = image;
+        this.panel = panel;
     }
 
     public void read( String filename ) {
@@ -36,6 +47,9 @@ public class Filter {
             File outFile = new File( OUT_DIR + filterName + ".jpg" );
             ImageIO.write( image, "jpg", outFile );
             System.out.println( filterName + " completed in: " + time + "ms" );
+            if ( panel != null ) {
+                panel.setBack( image );
+            }
         } catch( IOException e ) {
             System.out.println("Error: "+e);
         }
