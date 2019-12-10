@@ -25,6 +25,8 @@ public class Server {
         server.setImage( f.getImage() );
         Naming.rebind( "//"+ address +"/ImgFilters", server );
 
+        // TODO: Launch GUI and link to server & clients
+
         BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
         String in;
         while (true) {

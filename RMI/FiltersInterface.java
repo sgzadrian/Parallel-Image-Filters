@@ -10,10 +10,12 @@ public interface FiltersInterface extends Remote {
     public void setImage( byte[] image ) throws RemoteException;
     public void registerServer( FiltersInterface server ) throws RemoteException;
     public void runFilters() throws RemoteException;
+
     // Server -> Client
     public void clearFilters() throws RemoteException;
     public void addFilter( int filter ) throws RemoteException;
     public void runClients() throws RemoteException;
+
     // Client -> Server
     public void registerClient( FiltersInterface client ) throws RemoteException;
     public BufferedImage getServerImage() throws RemoteException;

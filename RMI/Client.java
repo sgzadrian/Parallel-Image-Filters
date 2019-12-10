@@ -32,7 +32,6 @@ public class Client {
         if ( address.length() > 7 ) {
             address = args[ 0 ];
         }
-        // ClientGUI gui = new ClientGUI();
         new Client( address );
     }
 
