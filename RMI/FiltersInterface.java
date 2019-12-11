@@ -19,5 +19,5 @@ public interface FiltersInterface extends Remote {
     // Client -> Server
     public void registerClient( FiltersInterface client ) throws RemoteException;
     public BufferedImage getServerImage() throws RemoteException;
-    public void saveImage( byte[] image, String filename, long time ) throws RemoteException;
+    public void saveImage( byte[] image, String filename, int filter, long time ) throws RemoteException;
 }

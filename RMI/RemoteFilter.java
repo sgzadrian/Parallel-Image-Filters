@@ -20,12 +20,13 @@ public class RemoteFilter extends UnicastRemoteObject implements FiltersInterfac
 	private static final long serialVersionUID = 1L;
 
     // Server Variables
-    private ArrayList<FiltersInterface> clientList = new ArrayList<>();
-    private byte[] image = null;
+    ArrayList<FiltersInterface> clientList = new ArrayList<>();
+    byte[] image = null;
+    Window window = null;
 
     // Client Variables
-    private ArrayList<Integer> filterList = new ArrayList<>();
-    private FiltersInterface server = null;
+    ArrayList<Integer> filterList = new ArrayList<>();
+    FiltersInterface server = null;
 
     /******************* Constructors *******************/
 
@@ -53,6 +54,16 @@ public class RemoteFilter extends UnicastRemoteObject implements FiltersInterfac
 			e.printStackTrace();
             return null;
 		}
+    }
+
+    /******************* GUI Methods *******************/
+
+    public Window getWindow() {
+        return window;
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
     }
 
     /******************* Remote Methods *******************/
@@ -92,13 +103,13 @@ public class RemoteFilter extends UnicastRemoteObject implements FiltersInterfac
                     Negative.splitAndRun( RemoteFilter.byte2im( image ), server );
                     break;
                 case RemoteFilter.BOX:
-                    LinearFilter.splitAndRun( RemoteFilter.byte2im( image ), LinearFilter.BOX, server );
+                    LinearFilter.splitAndRun( RemoteFilter.byte2im( image ), RemoteFilter.BOX, server );
                     break;
                 case RemoteFilter.GAUSS:
-                    LinearFilter.splitAndRun( RemoteFilter.byte2im( image ), LinearFilter.GAUSS, server );
+                    LinearFilter.splitAndRun( RemoteFilter.byte2im( image ), RemoteFilter.GAUSS, server );
                     break;
                 case RemoteFilter.DIFF:
-                    LinearFilter.splitAndRun( RemoteFilter.byte2im( image ), LinearFilter.DIFF, server );
+                    LinearFilter.splitAndRun( RemoteFilter.byte2im( image ), RemoteFilter.DIFF, server );
                     break;
             }
         }
@@ -128,6 +139,7 @@ public class RemoteFilter extends UnicastRemoteObject implements FiltersInterfac
             tmpClient = clientList.get( i );
             try {
                 tmpClient.clearFilters();
+                tmpClient.setImage( image );
             } catch (Exception e) {
                 clientList.remove( i );
                 clientsSize = clientList.size();
@@ -135,7 +147,8 @@ public class RemoteFilter extends UnicastRemoteObject implements FiltersInterfac
             }
         }
         if ( clientsSize < 1 ) {
-            System.out.println( "No Clients connected :C \n" );
+            // System.out.println( "No Clients connected :C \n" );
+            window.print( "No Clients connected :C \n" );
             return;
         }
         for( int i = 0, j = 0; i < 6; ++i, ++j ) {
@@ -155,7 +168,8 @@ public class RemoteFilter extends UnicastRemoteObject implements FiltersInterfac
 	public void registerClient(FiltersInterface client) throws RemoteException {
         clientList.add( client );
         client.registerServer( this );
-        client.setImage( image );
+        // client.setImage( image );
+        window.print( "Client connected..." );
 	}
 
 	@Override
@@ -169,14 +183,9 @@ public class RemoteFilter extends UnicastRemoteObject implements FiltersInterfac
      * in order to serialize it to send
      */
 	@Override
-    public void saveImage( byte[] image, String filename, long time ) {
+    public void saveImage( byte[] image, String filename, int filter, long time ) {
         Filter.write( image, filename, time );
-        // TODO: Update the panel that shows the image
-        // This runs on the server, on this point the image is ready and after the
-        // server write into the out folder, you can update the JPanel that loads
-        // the image.
-        // My recomendation, change filename param to filter id and assign a JPanel
-        // to each filter, use a switch to update only the required one
+        window.setFilterImage( image, filter, filename, time );
     }
 
 }

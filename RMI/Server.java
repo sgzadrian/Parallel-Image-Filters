@@ -1,5 +1,3 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -21,19 +19,9 @@ public class Server {
         }
 
         RemoteFilter server = new RemoteFilter();
-        Filter f = new Filter( "HD.jpg" );
-        server.setImage( f.getImage() );
+        Window w = new Window( server );
+        server.setWindow( w );
         Naming.rebind( "//"+ address +"/ImgFilters", server );
-
-        // TODO: Launch GUI and link to server & clients
-
-        BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
-        String in;
-        while (true) {
-            in = br.readLine().trim();
-            if ( in.equals( "start" ) ) {
-                server.runClients();
-            }
-        }
     }
+
 }

@@ -23,8 +23,6 @@ public class Filter {
     long time = 0;
     int finishedThreads = 0;
 
-    // ImagePane pane = null;
-
     FiltersInterface server = null;
 
     Filter( String filename ) {
@@ -36,13 +34,6 @@ public class Filter {
         width = image.getWidth();
         height = image.getHeight();
     }
-
-    // Filter( BufferedImage image, ImagePane pane ) {
-        // this.image = image;
-        // width = image.getWidth();
-        // height = image.getHeight();
-        // this.pane = pane;
-    // }
 
     Filter( BufferedImage image, FiltersInterface server ) {
         this.image = image;
@@ -205,7 +196,7 @@ public class Filter {
         return results;
     }
 
-    public void mergeImages( Filter baseImage, BufferedImage tmpImg, int section, long time ) {
+    public void mergeImages( Filter baseImage, BufferedImage tmpImg, int section, int filter, long time ) {
         if ( time > this.time ) {
             this.time = time;
         }
@@ -214,15 +205,14 @@ public class Filter {
         image.setRGB( sections[ section ][0], sections[ section ][1], w, h, tmpImg.getRGB( 0, 0, w, h, null, 0, w ), 0, w );
         finishedThreads++;
         if ( finishedThreads == sections.length ) {
-            // baseImage.write( time );
-            // if ( pane != null ) {
-            // pane.setBack( baseImage.getImage() );
-            // }
-            // System.out.println( "Finished " + filterName + " in " + this.time + "ms" );
             if ( server != null ) {
                 try {
                     System.out.println( "Sending file to server..." );
-                    server.saveImage( RemoteFilter.im2byte( baseImage.getImage() ), filterName, this.time );
+                    server.saveImage(
+                            RemoteFilter.im2byte( baseImage.getImage() ),
+                            filterName,
+                            filter,
+                            this.time );
                 } catch (Exception e) {
                     System.out.println( "Cant send image to server" );
                     e.printStackTrace();

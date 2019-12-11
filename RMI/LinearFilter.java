@@ -2,10 +2,6 @@ import java.awt.image.BufferedImage;
 
 public class LinearFilter extends Filter implements Runnable {
 
-    public static int BOX   = 0;
-    public static int GAUSS = 1;
-    public static int DIFF  = 2;
-
     int filter = 0;
 
     LinearFilter( String filename ) {
@@ -21,13 +17,13 @@ public class LinearFilter extends Filter implements Runnable {
     public void run() {
         long startTime = System.currentTimeMillis();
         switch ( filter ) {
-            case 0:
+            case RemoteFilter.BOX:
                 box( 3 );
                 break;
-            case 1:
+            case RemoteFilter.GAUSS:
                 gauss();
                 break;
-            case 2:
+            case RemoteFilter.DIFF:
                 diff();
                 break;
         }
@@ -38,7 +34,7 @@ public class LinearFilter extends Filter implements Runnable {
         applyMask();
         long endTime = System.currentTimeMillis();
         time = ( endTime - startTime );
-        original.mergeImages( original, image, sectionId, time );
+        original.mergeImages( original, image, sectionId, filter, time );
     }
 
     public void gauss() {
@@ -94,25 +90,6 @@ public class LinearFilter extends Filter implements Runnable {
             }
         }
     }
-
-    // public static void splitAndRun( BufferedImage baseImage, int filter, ImagePane panel ) {
-        // Thread base = new Thread(new Runnable(){
-            // @Override
-            // public void run() {
-                // int w = baseImage.getWidth();
-                // int h = baseImage.getHeight();
-                // BufferedImage image = new BufferedImage( w, h, 1 );
-                // image.setRGB( 0, 0, w, h, baseImage.getRGB( 0, 0, w, h, null, 0, w ), 0, w );
-                // Filter f = new Filter( image, panel );
-                // BufferedImage[] res = f.splitImage( f.getImage() );
-                // for( int i = 0; i < res.length; i++ ) {
-                    // Thread th = new Thread( new LinearFilter( res[ i ], i, f, filter ) );
-                    // th.start();
-                // }
-            // }
-        // });
-        // base.start();
-    // }
 
     public static void splitAndRun( BufferedImage baseImage, int filter, FiltersInterface server ) {
         Thread base = new Thread(new Runnable(){
